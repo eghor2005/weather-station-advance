@@ -2,6 +2,12 @@
 
 A comprehensive weather monitoring system using ESP32 with multiple sensors, LCD display, web interface, and real-time data visualization.
 
+## Photo of the finished device
+
+![Finished device](1.jpg)
+
+![Finished device](2.jpg)
+
 ## Features
 
 - Real-time monitoring of temperature, humidity, atmospheric pressure, and light levels
