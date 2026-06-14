@@ -4,9 +4,9 @@ A comprehensive weather monitoring system using ESP32 with multiple sensors, LCD
 
 ## Photo of the finished device
 
-![Finished device](1.jpg)
+![Finished device](weather-station-advance/photos/1.jpg)
 
-![Finished device](2.jpg)
+![Finished device](weather-station-advance/photos/2.jpg)
 
 ## Features
 
