@@ -23,21 +23,21 @@ WebServer server(80);
 int currentPage = 1;  
 int lastPage = 1;  
 unsigned long lastSendTime = 0;
-const unsigned long sendInterval = 2000; // Отправка данных каждые 2 секунды
+const unsigned long sendInterval = 2000; 
 unsigned long startTime = 0;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// Структура для хранения исторических данных
+
 struct SensorData {
   float temperature;
   float humidity;
   float pressure;
   int light;
-  unsigned long realTime; // Unix timestamp
+  unsigned long realTime; 
 };
 
-const int maxDataPoints = 24; // Храним последние 24 точки
+const int maxDataPoints = 24; 
 SensorData dataHistory[maxDataPoints];
 int dataIndex = 0;
 int dataCount = 0;
@@ -54,20 +54,18 @@ void setup() {
     Serial.println("HTU21D initialized");
   }
   
-  // ========== ИСПРАВЛЕННАЯ ИНИЦИАЛИЗАЦИЯ BMP280 ==========
-  // Вариант 1: Простой и надежный
+
   if (!bmp.begin(0x76)) {
     Serial.println("BMP280 not found at address 0x76!");
-    // Датчик есть, но begin() вернул false - это странно
-    // Попробуем принудительно сбросить и настроить
+
   }
   
-  // Принудительная настройка регистров BMP280 (решает проблему -58.7)
-  bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     // Нормальный режим
-                  Adafruit_BMP280::SAMPLING_X2,     // Разрешение температуры
-                  Adafruit_BMP280::SAMPLING_X16,    // Разрешение давления (макс)
-                  Adafruit_BMP280::FILTER_X16,      // Фильтрация
-                  Adafruit_BMP280::STANDBY_MS_500); // Интервал измерений
+ 
+  bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,     
+                  Adafruit_BMP280::SAMPLING_X2,     
+                  Adafruit_BMP280::SAMPLING_X16,    
+                  Adafruit_BMP280::FILTER_X16,    
+                  Adafruit_BMP280::STANDBY_MS_500); 
   
 
   
@@ -79,7 +77,7 @@ void setup() {
   lcd.setCursor(1, 0);
   lcd.print("Hello Sir!");
   
-  // Подключение к WiFi
+
   WiFi.begin(ssid, password);
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -101,7 +99,7 @@ void setup() {
     lcd.print(WiFi.localIP());
     delay(2000);
     
-    // Настройка маршрутов веб-сервера
+   
     setupWebServer();
     server.begin();
     Serial.println("HTTP server started");
@@ -112,7 +110,7 @@ void setup() {
     delay(2000);
   }
 
-  configTime(3 * 3600, 0, "pool.ntp.org", "time.nist.gov"); // 3*3600 для UTC+3 (Москва)
+  configTime(3 * 3600, 0, "pool.ntp.org", "time.nist.gov"); 
   Serial.print("Waiting for NTP time...");
   time_t now = time(nullptr);
   while (now < 24 * 3600) {
@@ -136,13 +134,12 @@ float getLightLevel() {
 
 
 void setupWebServer() {
-  // Главная страница с графиками
+  
   server.on("/", HTTP_GET, []() {
     String html = generateHTMLPage();
     server.send(200, "text/html", html);
   });
-  
-  // API для получения текущих данных
+
   server.on("/api/data", HTTP_GET, []() {
     StaticJsonDocument<200> doc;
     doc["temperature"] = htu.readTemperature();
@@ -164,22 +161,21 @@ server.on("/api/history", HTTP_GET, []() {
     JsonArray lights = doc.createNestedArray("lights");
     JsonArray times = doc.createNestedArray("times");
 
-    // Определяем индекс самой старой записи
+    
     int startIndex;
     if (dataCount < maxDataPoints) {
-        startIndex = 0;                 // буфер не заполнен – начинаем с 0
+        startIndex = 0;                 
     } else {
-        startIndex = dataIndex;         // буфер полон – самый старый элемент по dataIndex
+        startIndex = dataIndex;         
     }
 
-    // Отправляем все точки по порядку от старой к новой
     for (int i = 0; i < dataCount; i++) {
         int idx = (startIndex + i) % maxDataPoints;
         temps.add(dataHistory[idx].temperature);
         humidities.add(dataHistory[idx].humidity);
         pressures.add(dataHistory[idx].pressure);
         lights.add(dataHistory[idx].light);
-        times.add(dataHistory[idx].realTime); // Unix timestamp
+        times.add(dataHistory[idx].realTime); 
     }
 
     String response;
@@ -433,7 +429,7 @@ void playBeep() {
 }
 
 void loop() {
-  server.handleClient(); // Обработка веб-запросов
+  server.handleClient(); 
   
   float temp = htu.readTemperature();
   float humidity = htu.readHumidity();
@@ -460,7 +456,7 @@ void loop() {
     lastPage = currentPage;
   }
 
-  // Отображение на LCD
+
   if (currentPage == 1) {
     lcd.clear();
     lcd.setCursor(0, 0);
@@ -502,7 +498,6 @@ void loop() {
     lcd.print(" %");
   } 
   
-  // Сохранение данных для истории
   static unsigned long lastStoreTime = 0;
   unsigned long currentMillis = millis();
 
