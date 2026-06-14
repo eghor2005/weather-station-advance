@@ -30,18 +30,38 @@ A comprehensive weather monitoring system using ESP32 with multiple sensors, LCD
 
 ## Wiring Diagram
 
-| Component | ESP32 Pin |
-|-----------|-----------|
-| **I2C Bus (LCD, HTU21D, BMP280)** | |
-| SDA | GPIO 21 |
-| SCL | GPIO 22 |
-| **Light Sensor** | |
-| Analog output | GPIO 33 |
-| **Potentiometer** | |
-| Analog output | GPIO 35 |
-| **Buzzer** | |
-| Positive lead | GPIO 16 |
-| Negative lead | GND |
+Here's the wiring diagram table in English:
+
+## Wiring Diagram Table
+
+| **Component** | **ESP32 Pin** | **Purpose** | **Notes** |
+|---------------|----------------|----------------|----------------|
+| **LCD 1602 I2C Display** | | | |
+| | 3.3V / 5V | VCC | Power (compatible with 5V) |
+| | GND | GND | Common ground |
+| | GPIO21 (SDA) | SDA | I2C data |
+| | GPIO22 (SCL) | SCL | I2C clock |
+| **HTU21D Sensor** | | | |
+| | 3.3V | VIN | 3.3V power |
+| | GND | GND | Ground |
+| | GPIO21 (SDA) | SDA | I2C data (shared bus) |
+| | GPIO22 (SCL) | SCL | I2C clock (shared bus) |
+| **BMP280 Sensor** | | | |
+| | 3.3V | VCC | 3.3V power |
+| | GND | GND | Ground |
+| | GPIO21 (SDA) | SDA | I2C data (shared bus) |
+| | GPIO22 (SCL) | SCL | I2C clock (shared bus) |
+| **Photoresistor (Light Sensor)** | | | |
+| | 3.3V | - | Through 10kΩ resistor to GND (voltage divider) |
+| | GPIO33 (ADC) | Signal | Analog input |
+| | GND | GND | Common ground |
+| **Potentiometer (10 kΩ)** | | | |
+| | 3.3V | Left pin | Reference voltage |
+| | GPIO35 (ADC) | Middle pin | Signal to ESP32 |
+| | GND | Right pin | Ground |
+| **Piezo Buzzer** | | | |
+| | GPIO16 | + (anode) | PWM output |
+| | GND | - (cathode) | Common ground |
 
 ### Power Connections
 
