@@ -12,8 +12,8 @@
 #define POTENTIOMETER_PIN 35
 #define BUZZER_PIN 16
 
-const char* ssid = "Keenetic-8213";        
-const char* password = "Mb3Ksa8P"; 
+const char* ssid = "your_wifi_ssid";        
+const char* password = "your_wifi_password"; 
 
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
 Adafruit_BMP280 bmp; 
