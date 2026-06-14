@@ -63,13 +63,6 @@ Here's the wiring diagram table in English:
 | | GPIO16 | + (anode) | PWM output |
 | | GND | - (cathode) | Common ground |
 
-### Power Connections
-
-- **All I2C sensors**: VCC → 3.3V, GND → GND
-- **LCD**: VCC → 5V (if supported) or 3.3V, GND → GND
-- **Light Sensor**: VCC → 3.3V, GND → GND (with appropriate voltage divider)
-- **Potentiometer**: Outer pins → 3.3V and GND, wiper → GPIO 35
-
 ## Libraries Required
 
 Install via Arduino Library Manager:
